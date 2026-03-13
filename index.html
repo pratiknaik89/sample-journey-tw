@@ -11,22 +11,18 @@
     theme: {
       extend: {
         fontFamily: { sans: ['Inter', 'sans-serif'] },
-        colors: {
-          primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
-        }
+        colors: { primary: { 50: '#eff6ff', 100: '#dbeafe', 300: '#93c5fd', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' } }
       }
     }
   }
 </script>
 <style>
   *{ -webkit-tap-highlight-color: transparent; }
-  /* Custom transitions for accordion */
   .panel-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; opacity: 0; }
   .panel.active .panel-body { max-height: 2000px; opacity: 1; padding-bottom: 20px; }
   .chevron { transition: transform 0.3s ease; }
   .panel.active .chevron { transform: rotate(180deg); }
   .panel.disabled { opacity: 0.6; pointer-events: none; }
-  
   select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2364748b' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 20px; }
   input:focus, select:focus { outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.3); border-color: #3b82f6; }
 </style>
@@ -41,7 +37,7 @@
       <h1 class="font-bold text-slate-900 text-sm md:text-base">Two-Wheeler Loan</h1>
       <p class="text-xs text-slate-500 font-medium">Quick & Paperless Application</p>
     </div>
-    <div class="bg-primary-50 text-primary-600 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold" id="stepBadge">Step 1 of 9</div>
+    <div class="bg-primary-50 text-primary-600 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold" id="stepBadge">Step 1 of 10</div>
   </div>
 </header>
 
@@ -50,15 +46,14 @@
   <div class="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-slate-200">
     <div class="flex justify-between items-center mb-2 text-xs md:text-sm font-semibold text-slate-500">
       <span>Application Progress</span>
-      <span class="text-primary-600" id="progressPct">11%</span>
+      <span class="text-primary-600" id="progressPct">10%</span>
     </div>
     <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-      <div class="h-full bg-primary-600 transition-all duration-500 ease-out" id="progressFill" style="width:11%"></div>
+      <div class="h-full bg-primary-600 transition-all duration-500 ease-out" id="progressFill" style="width:10%"></div>
     </div>
   </div>
 </div>
 
-<!-- ACCORDION CONTAINER -->
 <main class="flex-1 max-w-2xl mx-auto w-full p-4 flex flex-col gap-3" id="accordion">
 
   <!-- STEP 1: MOBILE -->
@@ -78,449 +73,236 @@
           <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Mobile Number</label>
           <div class="flex gap-2">
             <div class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 flex items-center gap-1.5 shrink-0">🇮🇳 +91</div>
-            <input type="tel" id="phoneInput" placeholder="Enter 10-digit number" maxlength="10" inputmode="numeric" class="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium focus:border-primary-500" oninput="this.value=this.value.replace(/\D/g,'')"/>
+            <input type="tel" id="phoneInput" placeholder="Enter 10-digit no." maxlength="10" inputmode="numeric" class="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium focus:border-primary-500" oninput="this.value=this.value.replace(/\D/g,'')"/>
           </div>
         </div>
-        <p class="text-[11px] text-slate-500 leading-relaxed mb-4">By continuing, you agree to our <span class="text-primary-600 font-medium cursor-pointer">Terms & Privacy Policy</span>.</p>
-        <button class="w-full bg-primary-600 hover:bg-primary-700 active:scale-[0.98] transition-all text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20" onclick="handleSendOtp()">Get OTP</button>
+        <p class="text-[11px] text-slate-500 mb-4">By continuing, you agree to our <span class="text-primary-600 font-medium">Terms</span>.</p>
+        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20" onclick="handleSendOtp()">Get OTP</button>
       </div>
       <div id="otp-screen" class="hidden">
         <p class="text-center text-sm text-slate-500 mt-2">Enter OTP sent to <strong class="text-slate-800" id="otpPhone"></strong></p>
         <div class="flex justify-center gap-2 my-5">
-          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 transition-colors p-0" type="tel" maxlength="1" id="otp0" oninput="otpNext(this,1)"/>
-          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 transition-colors p-0" type="tel" maxlength="1" id="otp1" oninput="otpNext(this,2)" onkeydown="otpBack(event,0)"/>
-          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 transition-colors p-0" type="tel" maxlength="1" id="otp2" oninput="otpNext(this,3)" onkeydown="otpBack(event,1)"/>
-          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 transition-colors p-0" type="tel" maxlength="1" id="otp3" oninput="otpNext(this,4)" onkeydown="otpBack(event,2)"/>
-          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 transition-colors p-0" type="tel" maxlength="1" id="otp4" oninput="otpNext(this,5)" onkeydown="otpBack(event,3)"/>
-          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 transition-colors p-0" type="tel" maxlength="1" id="otp5" onkeydown="otpBack(event,4)"/>
+          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 p-0" type="tel" maxlength="1" id="otp0" oninput="otpNext(this,1)"/>
+          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 p-0" type="tel" maxlength="1" id="otp1" oninput="otpNext(this,2)" onkeydown="otpBack(event,0)"/>
+          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 p-0" type="tel" maxlength="1" id="otp2" oninput="otpNext(this,3)" onkeydown="otpBack(event,1)"/>
+          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 p-0" type="tel" maxlength="1" id="otp3" oninput="otpNext(this,4)" onkeydown="otpBack(event,2)"/>
+          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 p-0" type="tel" maxlength="1" id="otp4" oninput="otpNext(this,5)" onkeydown="otpBack(event,3)"/>
+          <input class="w-11 h-12 md:w-12 md:h-14 bg-white border border-slate-200 rounded-xl text-center text-xl font-bold text-slate-800 focus:border-primary-500 focus:bg-primary-50 p-0" type="tel" maxlength="1" id="otp5" onkeydown="otpBack(event,4)"/>
         </div>
         <div class="text-center text-xs text-slate-500 mb-5">Didn't receive code? <span id="resendBtn" class="font-semibold text-primary-600 cursor-pointer" onclick="resendOtp()">Resend in <b id="timer">30s</b></span></div>
-        <div class="flex gap-3 border-t border-slate-100 pt-4">
-          <button class="flex-none px-5 py-3.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm bg-white hover:bg-slate-50" onclick="editPhone()">Edit</button>
-          <button class="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" onclick="handleVerifyOtp()">Verify & Continue</button>
+        <div class="flex gap-3 pt-4 border-t border-slate-100">
+          <button class="flex-none px-5 py-3.5 rounded-xl border border-slate-200 font-bold text-sm bg-white" onclick="editPhone()">Edit</button>
+          <button class="flex-1 bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm" onclick="handleVerifyOtp()">Verify & Continue</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 2: SELFIE -->
+  <!-- STEP 2: VEHICLE DETAILS -->
   <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-2">
     <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors rounded-t-2xl" onclick="togglePanel(2)">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">🤳</div>
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">🏍️</div>
       <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">Take a Selfie</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Live photo for identity match</p>
+        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">Vehicle Details</h2>
+        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Review your requested loan</p>
       </div>
       <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-2"></div>
       <div class="chevron text-slate-400">▼</div>
     </div>
     <div class="panel-body px-4">
-      <div class="border-2 border-dashed border-slate-200 hover:border-primary-400 hover:bg-primary-50 transition-colors rounded-2xl p-6 text-center cursor-pointer bg-slate-50 mb-4" onclick="captureSelfie()">
-        <img class="w-full rounded-xl hidden shadow-md" id="selfiePreview"/>
-        <div id="selfiePlaceholder">
-          <div class="text-4xl mb-3">📷</div>
-          <h3 class="font-semibold text-sm text-slate-800">Tap to open camera</h3>
-          <p class="text-xs text-slate-500 mt-1">Position your face clearly in the frame</p>
+      <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 mb-4 shadow-[inset_0_1px_3px_rgba(0,0,0,0.02)]">
+        <div class="grid grid-cols-2 gap-y-4 gap-x-4">
+          <div><label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Manufacturer</label><p class="text-[13px] font-semibold text-slate-800">Honda</p></div>
+          <div><label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Model</label><p class="text-[13px] font-semibold text-slate-800">Activa 6G</p></div>
+          <div><label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Variant</label><p class="text-[13px] font-semibold text-slate-800">DLX (Disc)</p></div>
+          <div><label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Vehicle Price</label><p class="text-[13px] font-semibold text-slate-800">₹ 85,000</p></div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 gap-y-4 gap-x-4">
+          <div><label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Req. Loan Amt</label><p class="text-sm font-black text-primary-600">₹ 70,000</p></div>
+          <div><label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Interest Rate</label><p class="text-[13px] font-bold text-slate-800">14% p.a.</p></div>
+          <div class="col-span-2"><label class="block text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Tenure</label><p class="text-[13px] font-bold text-slate-800">24 Months</p></div>
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-2 mb-5">
-        <div class="bg-white border border-slate-200 rounded-xl p-2.5 text-center text-xs font-medium text-slate-600"><span class="block text-lg mb-1">☀️</span>Good light</div>
-        <div class="bg-white border border-slate-200 rounded-xl p-2.5 text-center text-xs font-medium text-slate-600"><span class="block text-lg mb-1">👓</span>No glasses</div>
-        <div class="bg-white border border-slate-200 rounded-xl p-2.5 text-center text-xs font-medium text-slate-600"><span class="block text-lg mb-1">😐</span>Neutral face</div>
-        <div class="bg-white border border-slate-200 rounded-xl p-2.5 text-center text-xs font-medium text-slate-600"><span class="block text-lg mb-1">🚫</span>No mask</div>
-      </div>
-      <input type="file" accept="image/*" capture="user" id="cameraInput" class="hidden" onchange="previewSelfie(event)"/>
-      <div class="border-t border-slate-100 pt-4">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" id="selfieNextBtn" onclick="completeStep(2)" disabled>Continue</button>
+      <p class="text-xs text-slate-500 mb-4 leading-relaxed bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">Details auto-filled based on your selection. If anything looks incorrect, please contact your dealer.</p>
+      <div class="border-t border-slate-100 pt-3">
+        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md" onclick="completeStep(2)">Accept Details</button>
       </div>
     </div>
   </div>
 
-  <!-- STEP 3: KYC -->
+  <!-- STEP 3: SELFIE -->
   <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-3">
-    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors rounded-t-2xl" onclick="togglePanel(3)">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">🪪</div>
-      <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">KYC Verification</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Identity proof</p>
+    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50" onclick="togglePanel(3)">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-lg">🤳</div>
+      <div class="flex-1"><h2 class="font-bold text-sm md:text-base panel-heading">Take a Selfie</h2><p class="text-[11px] text-slate-500 mt-0.5">Live photo match</p></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-3"></div><div class="chevron">▼</div>
+    </div>
+    <div class="panel-body px-4">
+      <div class="border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer bg-slate-50 mb-4" onclick="document.getElementById('cameraInput').click()">
+        <img class="w-full rounded-xl hidden" id="selfiePreview"/>
+        <div id="selfiePlaceholder"><div class="text-4xl mb-3">📷</div><h3 class="font-semibold text-sm">Tap to open camera</h3></div>
       </div>
-      <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-3"></div>
-      <div class="chevron text-slate-400">▼</div>
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <div class="border p-2 rounded-xl text-center text-xs"><span class="block text-lg">☀️</span>Good light</div>
+        <div class="border p-2 rounded-xl text-center text-xs"><span class="block text-lg">👓</span>No glasses</div>
+      </div>
+      <input type="file" accept="image/*" capture="user" id="cameraInput" class="hidden" onchange="previewSelfie(event)"/>
+      <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm disabled:opacity-50" id="selfieNextBtn" onclick="completeStep(3)" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: KYC -->
+  <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-4">
+    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50" onclick="togglePanel(4)">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-lg">🪪</div>
+      <div class="flex-1"><h2 class="font-bold text-sm md:text-base panel-heading">KYC Verification</h2><p class="text-[11px] text-slate-500 mt-0.5">Identity proof</p></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-4"></div><div class="chevron">▼</div>
     </div>
     <div class="panel-body px-4">
       <div class="flex flex-col gap-2.5 mb-2">
-        <div class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors kyc-opt group" id="kycEkyc" onclick="selectKyc('ekyc', this)">
-          <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-xl shrink-0 group-[.selected]:bg-primary-600 group-[.selected]:text-white transition-colors">⚡</div>
-          <div class="flex-1">
-            <h3 class="font-semibold text-sm text-slate-800">eKYC via Aadhaar</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Instant check with OTP</p>
-          </div>
-          <div class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-[10px] text-transparent group-[.selected]:bg-primary-600 group-[.selected]:border-primary-600 group-[.selected]:text-white transition-all check-circle"></div>
+        <div class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer group hover:bg-slate-50" onclick="selectKyc('ekyc', this)">
+          <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center group-[.selected]:bg-primary-600 group-[.selected]:text-white">⚡</div>
+          <div class="flex-1"><h3 class="font-semibold text-sm">eKYC via Aadhaar</h3></div>
+          <div class="w-5 h-5 rounded-full border group-[.selected]:bg-primary-600"></div>
         </div>
-        
-        <div class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer hover:bg-slate-50 transition-colors kyc-opt group" id="kycPkyc" onclick="selectKyc('pkyc', this)">
-          <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-xl shrink-0 group-[.selected]:bg-primary-600 group-[.selected]:text-white transition-colors">📄</div>
-          <div class="flex-1">
-            <h3 class="font-semibold text-sm text-slate-800">Upload Documents</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Voter ID, DL, or Passport</p>
-          </div>
-          <div class="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-[10px] text-transparent group-[.selected]:bg-primary-600 group-[.selected]:border-primary-600 group-[.selected]:text-white transition-all check-circle"></div>
+        <div class="border border-slate-200 rounded-xl p-3 flex items-center gap-3 cursor-pointer group hover:bg-slate-50" onclick="selectKyc('pkyc', this)">
+          <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center group-[.selected]:bg-primary-600 group-[.selected]:text-white">📄</div>
+          <div class="flex-1"><h3 class="font-semibold text-sm">Upload Documents</h3></div>
+          <div class="w-5 h-5 rounded-full border group-[.selected]:bg-primary-600"></div>
         </div>
       </div>
-      
-      <div class="hidden flex-col gap-2 mt-3 pt-3 border-t border-slate-100" id="pkycSub">
-        <div class="border border-slate-200 rounded-xl p-3 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition-colors text-sm font-medium text-slate-600 pkyc-subopt-[.selected]:bg-green-50 pkyc-subopt-[.selected]:border-green-500 pkyc-subopt-[.selected]:text-green-700" onclick="selectPkycDoc('voter', this)">🗳️ Voter ID</div>
-        <div class="border border-slate-200 rounded-xl p-3 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition-colors text-sm font-medium text-slate-600 pkyc-subopt-[.selected]:bg-green-50 pkyc-subopt-[.selected]:border-green-500 pkyc-subopt-[.selected]:text-green-700" onclick="selectPkycDoc('dl', this)">🚗 Driving Licence</div>
-        <div class="border border-slate-200 rounded-xl p-3 flex items-center gap-2 cursor-pointer hover:bg-slate-50 transition-colors text-sm font-medium text-slate-600 pkyc-subopt-[.selected]:bg-green-50 pkyc-subopt-[.selected]:border-green-500 pkyc-subopt-[.selected]:text-green-700" onclick="selectPkycDoc('passport', this)">✈️ Passport</div>
+      <div class="hidden flex-col gap-2 mt-3" id="pkycSub">
+        <div class="border rounded-xl p-3 hover:bg-slate-50 pkyc-subopt-[.selected]:bg-green-50" onclick="selectPkycDoc('voter', this)">🗳️ Voter ID</div>
+        <div class="border rounded-xl p-3 hover:bg-slate-50 pkyc-subopt-[.selected]:bg-green-50" onclick="selectPkycDoc('dl', this)">🚗 Driving Licence</div>
       </div>
-
-      <div id="ekycPanel" class="hidden mt-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-        <div class="mb-3">
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Aadhaar Number</label>
-          <input type="tel" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="XXXX XXXX XXXX" maxlength="14" inputmode="numeric" oninput="formatAadhaar(this)"/>
-        </div>
-        <button class="w-full border border-primary-600 text-primary-600 bg-white font-bold py-2.5 rounded-xl text-sm hover:bg-primary-50 active:scale-[0.98] transition-all" onclick="showToast('OTP sent to Aadhaar mobile')">Send Aadhaar OTP</button>
-        <div class="mt-4">
-           <input type="tel" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-3 text-base text-center tracking-[0.3em] font-bold" placeholder="ENTER OTP" maxlength="6" inputmode="numeric"/>
-        </div>
+      <div id="ekycPanel" class="hidden mt-4 bg-slate-50 p-4 rounded-xl border">
+        <input type="tel" class="w-full bg-white border rounded-xl px-3 py-2.5 text-sm mb-3" placeholder="Aadhaar No." maxlength="14" oninput="formatAadhaar(this)"/>
+        <button class="w-full border border-primary-600 text-primary-600 bg-white font-bold py-2.5 rounded-xl text-sm" onclick="showToast('OTP sent')">Send OTP</button>
       </div>
-
-      <div id="pkycPanel" class="hidden mt-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-        <div class="mb-3">
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide" id="pkycDocLabel">ID Number</label>
-          <input type="text" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium uppercase" placeholder="Enter ID number"/>
-        </div>
-        <div class="mb-3">
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Upload Front Side</label>
-          <input type="file" accept="image/*" class="w-full bg-white border border-slate-200 rounded-xl p-2 text-sm text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary-50 file:text-primary-700"/>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Upload Back Side</label>
-          <input type="file" accept="image/*" class="w-full bg-white border border-slate-200 rounded-xl p-2 text-sm text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-primary-50 file:text-primary-700"/>
-        </div>
+      <div id="pkycPanel" class="hidden mt-4 bg-slate-50 p-4 rounded-xl border">
+        <input type="text" class="w-full bg-white border rounded-xl px-3 py-2.5 text-sm mb-3" placeholder="ID Number"/>
+        <label class="block text-xs font-semibold mb-1">Front</label><input type="file" class="w-full bg-white border rounded-xl p-2 mb-3"/>
+        <label class="block text-xs font-semibold mb-1">Back</label><input type="file" class="w-full bg-white border rounded-xl p-2"/>
       </div>
-
-      <div class="border-t border-slate-100 pt-4 mt-5">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" onclick="completeStep(3)">Verify & Continue</button>
-      </div>
+      <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm mt-4" onclick="completeStep(4)">Verify & Continue</button>
     </div>
   </div>
 
-  <!-- STEP 4: ADDRESS -->
-  <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-4">
-    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors rounded-t-2xl" onclick="togglePanel(4)">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">🏠</div>
-      <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">Address Details</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Current residence</p>
-      </div>
-      <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-4"></div>
-      <div class="chevron text-slate-400">▼</div>
+  <!-- STEP 5: ADDRESS -->
+  <div class="panel disabled bg-white rounded-2xl border shadow-sm" id="panel-5">
+    <div class="flex items-center gap-3 p-4 cursor-pointer" onclick="togglePanel(5)">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">🏠</div>
+      <div class="flex-1"><h2 class="font-bold text-sm panel-heading">Address Details</h2></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-5"></div><div class="chevron">▼</div>
     </div>
     <div class="panel-body px-4">
-      <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl mb-4">
-        <div>
-          <h3 class="font-semibold text-sm text-slate-800">Same as KYC Address</h3>
-          <p class="text-[11px] text-slate-500 mt-0.5">Auto-fill from verified document</p>
-        </div>
-        <div class="w-11 h-6 bg-slate-200 rounded-full relative cursor-pointer transition-colors duration-300 toggle-switch" id="addrToggle" onclick="toggleSameAddr(this)">
-          <div class="w-5 h-5 bg-white rounded-full absolute top-[2px] left-[2px] shadow-sm transition-all duration-300 toggle-knob"></div>
-        </div>
+      <div class="flex justify-between items-center p-3 bg-slate-50 border rounded-xl mb-4">
+        <div><h3 class="font-semibold text-sm">Same as KYC</h3></div>
+        <div class="w-11 h-6 bg-slate-200 rounded-full cursor-pointer relative" onclick="toggleSameAddr(this)"><div class="w-5 h-5 bg-white rounded-full absolute top-[2px] left-[2px] transition-all toggle-knob"></div></div>
       </div>
-      
-      <div class="space-y-3 mb-5">
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Address Line 1</label>
-          <input type="text" id="addr1" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="Flat / House No. / Building"/>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Address Line 2</label>
-          <input type="text" id="addr2" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="Street / Locality / Landmark"/>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">City</label>
-            <input type="text" id="city" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="City"/>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">State</label>
-            <div class="relative">
-              <select id="state" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium pr-8">
-                <option value="">Select State</option>
-                <option>Maharashtra</option><option>Gujarat</option>
-                <option>Karnataka</option><option>Delhi</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">PIN Code</label>
-            <input type="tel" id="pin" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="6 digits" maxlength="6" inputmode="numeric"/>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Ownership</label>
-            <div class="relative">
-              <select class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium pr-8">
-                <option value="">Select</option>
-                <option>Owned</option><option>Rented</option><option>Family</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-100 pt-4">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" onclick="completeStep(4)">Save Address</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 5: EMPLOYMENT -->
-  <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-5">
-    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors rounded-t-2xl" onclick="togglePanel(5)">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">💼</div>
-      <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">Employment Details</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Income & occupation</p>
-      </div>
-      <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-5"></div>
-      <div class="chevron text-slate-400">▼</div>
-    </div>
-    <div class="panel-body px-4">
-      <div class="mb-4">
-        <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Employment Type</label>
-        <select id="empType" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium pr-8" onchange="showEmpFields()">
-          <option value="">Select type</option>
-          <option value="salaried">Salaried</option>
-          <option value="self">Self-Employed / Business</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-
-      <div id="salariedFields" class="hidden space-y-3 mb-5">
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Company Name</label>
-          <input type="text" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="Employer name"/>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Net Salary (₹/mo)</label>
-            <input type="tel" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="e.g. 45000" inputmode="numeric"/>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Experience</label>
-            <select class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium pr-8"><option>< 1 Yr</option><option>1-3 Yrs</option><option>3+ Yrs</option></select>
-          </div>
-        </div>
-      </div>
-
-      <div id="selfFields" class="hidden space-y-3 mb-5">
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Business Name & Type</label>
-          <input type="text" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="e.g. Acme Stores, Retail"/>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Income (₹/mo)</label>
-            <input type="tel" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="Approx income" inputmode="numeric"/>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Biz Vintage</label>
-            <select class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium pr-8"><option>< 1 Yr</option><option>1-3 Yrs</option><option>3+ Yrs</option></select>
-          </div>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-100 pt-4">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" onclick="completeStep(5)">Save Employment</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 6: DOCUMENTS -->
-  <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-6">
-    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors rounded-t-2xl" onclick="togglePanel(6)">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">📁</div>
-      <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">Upload Documents</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Supporting proofs</p>
-      </div>
-      <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-6"></div>
-      <div class="chevron text-slate-400">▼</div>
-    </div>
-    <div class="panel-body px-4">
-      <p class="text-xs text-slate-500 mb-4 leading-relaxed">Upload clear, readable copies. Accepted: JPG, PNG, PDF (max 5MB).</p>
-      
-      <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 mb-4">
-        <h3 class="font-bold text-sm text-slate-800 flex items-center gap-1.5 mb-3">💰 Income Proof</h3>
-        <div class="space-y-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Bank Statement (Last 3 Months)</label>
-            <input type="file" accept=".pdf,image/*" class="w-full bg-white border border-slate-200 rounded-lg p-2 text-[13px] text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[11px] file:font-bold file:bg-primary-50 file:text-primary-700"/>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Salary Slip / ITR / Form 16</label>
-             <input type="file" accept=".pdf,image/*" class="w-full bg-white border border-slate-200 rounded-lg p-2 text-[13px] text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[11px] file:font-bold file:bg-primary-50 file:text-primary-700"/>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 mb-5">
-        <h3 class="font-bold text-sm text-slate-800 flex items-center gap-1.5 mb-3">🏍️ Vehicle Details</h3>
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Dealer Proforma Invoice / Quote</label>
-           <input type="file" accept=".pdf,image/*" class="w-full bg-white border border-slate-200 rounded-lg p-2 text-[13px] text-slate-600 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[11px] file:font-bold file:bg-primary-50 file:text-primary-700"/>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-100 pt-4">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" onclick="completeStep(6)">Upload & Continue</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 7: ENACH -->
-  <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-7">
-    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors rounded-t-2xl" onclick="togglePanel(7)">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">🏦</div>
-      <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">eNACH Setup</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Auto-debit EMI mandate</p>
-      </div>
-      <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-7"></div>
-      <div class="chevron text-slate-400">▼</div>
-    </div>
-    <div class="panel-body px-4">
-      <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-4">
-        <h3 class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Mandate Summary</h3>
-        <div class="text-3xl font-black text-slate-800 leading-none">₹4,250</div>
-        <div class="text-[11px] font-medium text-slate-500 mt-1 mb-4">Monthly EMI (12 Months)</div>
-        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-slate-200">
-          <div><label class="text-[10px] text-slate-500 uppercase tracking-wide">Loan Amt</label><p class="text-[13px] font-bold text-slate-800">₹45,000</p></div>
-          <div><label class="text-[10px] text-slate-500 uppercase tracking-wide">Start Date</label><p class="text-[13px] font-bold text-slate-800">1st Apr 2025</p></div>
-        </div>
-      </div>
-      
       <div class="space-y-3 mb-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Account Number</label>
-          <input type="tel" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium" placeholder="Enter A/c Number" inputmode="numeric"/>
-        </div>
+        <input type="text" id="addr1" class="w-full bg-white border px-3 py-2.5 rounded-xl text-sm" placeholder="Address 1"/>
+        <input type="text" id="addr2" class="w-full bg-white border px-3 py-2.5 rounded-xl text-sm" placeholder="Address 2"/>
         <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">IFSC Code</label>
-            <input type="text" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium uppercase" placeholder="HDFC0001234"/>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Account Type</label>
-            <select class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-sm font-medium pr-8"><option>Savings</option><option>Current</option></select>
-          </div>
+          <input type="text" id="city" class="bg-white border px-3 py-2.5 rounded-xl text-sm" placeholder="City"/>
+          <select id="state" class="bg-white border px-3 py-2.5 rounded-xl text-sm"><option value="">State</option><option>MH</option><option>GJ</option></select>
         </div>
+        <input type="tel" id="pin" class="w-full bg-white border px-3 py-2.5 rounded-xl text-sm" placeholder="PIN" maxlength="6"/>
       </div>
-
-      <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-100 rounded-xl mb-5">
-        <div>
-          <h3 class="font-semibold text-sm text-slate-800">Authorise eNACH</h3>
-          <p class="text-[11px] text-slate-500 mt-0.5">I consent to auto-debit</p>
-        </div>
-        <div class="w-11 h-6 bg-slate-200 rounded-full relative cursor-pointer transition-colors duration-300 toggle-switch" id="nachToggle" onclick="toggleSwitch(this)">
-          <div class="w-5 h-5 bg-white rounded-full absolute top-[2px] left-[2px] shadow-sm transition-all duration-300 toggle-knob"></div>
-        </div>
-      </div>
-
-      <div class="border-t border-slate-100 pt-4">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" onclick="completeStep(7)">Confirm Mandate</button>
-      </div>
+      <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm" onclick="completeStep(5)">Save Address</button>
     </div>
   </div>
 
-  <!-- STEP 8: ESIGN -->
-  <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-8">
-    <div class="flex items-center gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors rounded-t-2xl" onclick="togglePanel(8)">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">✍️</div>
-      <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">eSign Documents</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Aadhaar based digital signature</p>
-      </div>
-      <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-8"></div>
-      <div class="chevron text-slate-400">▼</div>
+  <!-- STEP 6: EMPLOYMENT -->
+  <div class="panel disabled bg-white rounded-2xl border shadow-sm" id="panel-6">
+    <div class="flex items-center gap-3 p-4 cursor-pointer" onclick="togglePanel(6)">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">💼</div>
+      <div class="flex-1"><h2 class="font-bold text-sm panel-heading">Employment Details</h2></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-6"></div><div class="chevron">▼</div>
     </div>
     <div class="panel-body px-4">
-      <p class="text-xs text-slate-500 mb-4 leading-relaxed">Review and legally sign your loan agreement securely via Aadhaar authentication.</p>
-      
-      <div class="border border-slate-200 rounded-xl p-4 mb-3 shadow-sm">
-        <h3 class="font-semibold text-sm text-slate-800 mb-3 flex items-center gap-1.5">📋 Loan Agreement</h3>
-        <div class="space-y-2 opacity-50">
-          <div class="h-2 bg-slate-200 rounded-full w-[95%]"></div>
-          <div class="h-2 bg-slate-200 rounded-full w-[80%]"></div>
-          <div class="h-2 bg-slate-200 rounded-full w-[85%]"></div>
-        </div>
-        <div class="mt-4 bg-primary-50 border border-dashed border-primary-300 rounded-lg p-3 text-center text-[13px] font-bold text-primary-600 cursor-pointer hover:bg-primary-100 transition-colors" onclick="showToast('Authenticating via NSDL...')">
-          ✍️ Tap to eSign Agreement
-        </div>
+      <select id="empType" class="w-full border px-3 py-2.5 text-sm rounded-xl mb-3" onchange="showEmpFields()"><option value="">Type</option><option value="salaried">Salaried</option><option value="self">Self-Employed</option></select>
+      <div id="salariedFields" class="hidden space-y-3 mb-4">
+        <input type="text" class="w-full border px-3 py-2.5 text-sm rounded-xl" placeholder="Company"/>
+        <input type="tel" class="w-full border px-3 py-2.5 text-sm rounded-xl" placeholder="Salary/mo"/>
       </div>
-      
-      <div class="border border-slate-200 rounded-xl p-4 mb-5 shadow-sm">
-        <h3 class="font-semibold text-sm text-slate-800 mb-3 flex items-center gap-1.5">📋 EMI Mandate form</h3>
-        <div class="space-y-2 opacity-50">
-          <div class="h-2 bg-slate-200 rounded-full w-[80%]"></div>
-          <div class="h-2 bg-slate-200 rounded-full w-[90%]"></div>
-        </div>
-        <div class="mt-4 bg-primary-50 border border-dashed border-primary-300 rounded-lg p-3 text-center text-[13px] font-bold text-primary-600 cursor-pointer hover:bg-primary-100 transition-colors" onclick="showToast('Authenticating via NPCI...')">
-          ✍️ Tap to eSign Mandate
-        </div>
+      <div id="selfFields" class="hidden space-y-3 mb-4">
+        <input type="text" class="w-full border px-3 py-2.5 text-sm rounded-xl" placeholder="Business Name"/>
+        <input type="tel" class="w-full border px-3 py-2.5 text-sm rounded-xl" placeholder="Income/mo"/>
       </div>
-
-      <div class="border-t border-slate-100 pt-4">
-        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20 active:scale-[0.98] transition-all" onclick="completeStep(8)">Finish eSign</button>
-      </div>
+      <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm" onclick="completeStep(6)">Save Employment</button>
     </div>
   </div>
 
-  <!-- STEP 9: DISBURSEMENT -->
-  <div class="panel disabled bg-white rounded-2xl border border-slate-200 shadow-sm" id="panel-9">
-    <div class="flex items-center gap-3 p-4 rounded-t-2xl">
-      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-lg shrink-0 transition-colors">🎉</div>
-      <div class="flex-1">
-        <h2 class="font-bold text-slate-800 text-sm md:text-base panel-heading">Disbursement</h2>
-        <p class="text-[11px] md:text-xs text-slate-500 mt-0.5">Application Success</p>
-      </div>
-      <div class="status-badge hidden bg-green-100 text-green-700 font-bold text-[10px] px-2 py-1 rounded-full" id="badge-9"></div>
+  <!-- STEP 7: DOCUMENTS -->
+  <div class="panel disabled bg-white rounded-2xl border shadow-sm" id="panel-7">
+    <div class="flex items-center gap-3 p-4 cursor-pointer" onclick="togglePanel(7)">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">📁</div>
+      <div class="flex-1"><h2 class="font-bold text-sm panel-heading">Upload Documents</h2></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-7"></div><div class="chevron">▼</div>
     </div>
-    <div class="panel-body px-4 pb-4">
-      <div class="text-center pt-2 pb-6">
-        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-4xl mx-auto mb-5 shadow-[0_0_0_8px_rgba(34,197,94,0.1)] relative">
-          ✓
-          <div class="absolute inset-0 bg-green-200 rounded-full animate-ping opacity-20"></div>
-        </div>
-        <h2 class="text-2xl font-black text-slate-800 mb-2">Success!</h2>
-        <p class="text-sm text-slate-500 mb-6 leading-relaxed">Your loan of <strong class="text-slate-700">₹45,000</strong> is approved and will be disbursed to the dealer shortly.</p>
-        
-        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 border-dashed mb-6 max-w-sm mx-auto">
-          <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1">Loan Ref. No.</label>
-          <p class="text-xl font-black text-primary-600 tracking-wider">TWL-2508-4921</p>
-        </div>
-        
-        <div class="grid grid-cols-2 gap-3 text-left max-w-sm mx-auto pb-6">
-          <div class="border border-slate-200 rounded-xl p-3 bg-white shadow-sm"><label class="text-[10px] text-slate-500 font-bold block mb-0.5 uppercase tracking-wide">EMI</label><p class="text-[13px] font-bold text-slate-800">₹4,250</p></div>
-          <div class="border border-slate-200 rounded-xl p-3 bg-white shadow-sm"><label class="text-[10px] text-slate-500 font-bold block mb-0.5 uppercase tracking-wide">1st EMI Date</label><p class="text-[13px] font-bold text-slate-800">1 Apr 2025</p></div>
-          <div class="border border-slate-200 rounded-xl p-3 bg-white shadow-sm"><label class="text-[10px] text-slate-500 font-bold block mb-0.5 uppercase tracking-wide">Tenure</label><p class="text-[13px] font-bold text-slate-800">12 Months</p></div>
-          <div class="border border-slate-200 rounded-xl p-3 bg-white shadow-sm"><label class="text-[10px] text-slate-500 font-bold block mb-0.5 uppercase tracking-wide">Status</label><p class="text-[13px] font-bold text-green-600">Processing</p></div>
-        </div>
-        
-        <div class="flex gap-3 max-w-sm mx-auto border-t border-slate-100 pt-6">
-          <button class="flex-none px-4 py-3.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm bg-white hover:bg-slate-50" onclick="showToast('Downloading letter...')">📄</button>
-          <button class="flex-1 bg-primary-600 hover:bg-primary-700 active:scale-[0.98] transition-all text-white font-bold py-3.5 rounded-xl text-sm shadow-md shadow-primary-500/20" onclick="location.reload()">Back to Home</button>
-        </div>
+    <div class="panel-body px-4">
+      <div class="bg-slate-50 p-3 rounded-xl border mb-3">
+        <label class="text-xs font-semibold mb-1 block">Income Proof</label>
+        <input type="file" class="w-full bg-white border rounded-lg p-2 text-xs mb-2"/>
+        <label class="text-xs font-semibold mb-1 block">Salary Slip/ITR</label>
+        <input type="file" class="w-full bg-white border rounded-lg p-2 text-xs"/>
+      </div>
+      <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm" onclick="completeStep(7)">Upload & Continue</button>
+    </div>
+  </div>
+
+  <!-- STEP 8: ENACH -->
+  <div class="panel disabled bg-white rounded-2xl border shadow-sm" id="panel-8">
+    <div class="flex items-center gap-3 p-4 cursor-pointer" onclick="togglePanel(8)">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">🏦</div>
+      <div class="flex-1"><h2 class="font-bold text-sm panel-heading">eNACH Setup</h2></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-8"></div><div class="chevron">▼</div>
+    </div>
+    <div class="panel-body px-4">
+      <div class="bg-slate-50 border p-4 mb-4 rounded-xl text-center">
+        <p class="text-2xl font-black mb-1">₹4,250</p><p class="text-xs font-semibold text-slate-500">EMI (24 Months)</p>
+      </div>
+      <input type="tel" class="w-full border px-3 py-2.5 rounded-xl text-sm mb-3" placeholder="Account No."/>
+      <input type="text" class="w-full border px-3 py-2.5 rounded-xl text-sm uppercase mb-4" placeholder="IFSC"/>
+      <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm" onclick="completeStep(8)">Confirm Mandate</button>
+    </div>
+  </div>
+
+  <!-- STEP 9: ESIGN -->
+  <div class="panel disabled bg-white rounded-2xl border shadow-sm" id="panel-9">
+    <div class="flex items-center gap-3 p-4 cursor-pointer" onclick="togglePanel(9)">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">✍️</div>
+      <div class="flex-1"><h2 class="font-bold text-sm panel-heading">eSign Documents</h2></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-9"></div><div class="chevron">▼</div>
+    </div>
+    <div class="panel-body px-4">
+      <div class="border rounded-xl p-3 mb-3 hover:bg-slate-50 cursor-pointer text-sm font-bold text-primary-600 text-center" onclick="showToast('Authenticating')">✍️ eSign Agreement</div>
+      <div class="border rounded-xl p-3 mb-4 hover:bg-slate-50 cursor-pointer text-sm font-bold text-primary-600 text-center" onclick="showToast('Authenticating')">✍️ eSign Mandate</div>
+      <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm" onclick="completeStep(9)">Finish eSign</button>
+    </div>
+  </div>
+
+  <!-- STEP 10: DISBURSEMENT -->
+  <div class="panel disabled bg-white rounded-2xl border shadow-sm" id="panel-10">
+    <div class="flex items-center gap-3 p-4">
+      <div class="panel-icon w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">🎉</div>
+      <div class="flex-1"><h2 class="font-bold text-sm panel-heading">Disbursement</h2></div>
+      <div class="status-badge hidden bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold" id="badge-10"></div>
+    </div>
+    <div class="panel-body px-4">
+      <div class="text-center pb-4">
+        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">✓</div>
+        <h2 class="text-xl font-black mb-2">Success!</h2>
+        <p class="text-xs text-slate-500 mb-4">Loan approved & processing.</p>
+        <button class="w-full bg-primary-600 text-white font-bold py-3.5 rounded-xl text-sm" onclick="location.reload()">Back to Home</button>
       </div>
     </div>
   </div>
 
 </main>
 
-<!-- TOAST -->
-<div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-5 py-3 rounded-xl shadow-xl shadow-slate-900/20 text-sm font-semibold flexItems-center gap-2 opacity-0 transition-opacity duration-300 pointer-events-none z-[100]"></div>
+<div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-5 py-3 rounded-xl text-sm font-semibold opacity-0 transition-opacity z-[100] pointer-events-none"></div>
 
 <script>
 let currentActive = 1;
@@ -528,18 +310,13 @@ let currentActive = 1;
 function togglePanel(step) {
   const panel = document.getElementById('panel-'+step);
   if(panel.classList.contains('disabled')) return;
-  
   if(!panel.classList.contains('active')){
     document.querySelectorAll('.panel').forEach(p => {
-      p.classList.remove('active', 'border-primary-300', 'shadow-[0_4px_12px_rgba(37,99,235,0.08)]');
-      p.querySelector('.panel-icon').classList.remove('bg-primary-50', 'text-primary-600', 'border-primary-200');
-      p.querySelector('.panel-heading').classList.remove('text-primary-600');
+      p.classList.remove('active', 'border-primary-300');
+      p.querySelector('.panel-icon').classList.remove('bg-primary-50', 'text-primary-600');
     });
-    
-    panel.classList.add('active', 'border-primary-300', 'shadow-[0_4px_12px_rgba(37,99,235,0.08)]');
-    panel.querySelector('.panel-icon').classList.add('bg-primary-50', 'text-primary-600', 'border-primary-200');
-    panel.querySelector('.panel-heading').classList.add('text-primary-600');
-    
+    panel.classList.add('active', 'border-primary-300');
+    panel.querySelector('.panel-icon').classList.add('bg-primary-50', 'text-primary-600');
     currentActive = step;
     updateProgress();
   }
@@ -548,122 +325,44 @@ function togglePanel(step) {
 function completeStep(step) {
   const currentPanel = document.getElementById('panel-'+step);
   currentPanel.classList.add('done');
-  
-  // Stylize icon to green check
   const icon = currentPanel.querySelector('.panel-icon');
-  icon.classList.remove('bg-primary-50', 'text-primary-600', 'border-primary-200');
-  icon.classList.add('bg-green-100', 'text-green-600', 'border-green-200');
+  icon.classList.remove('bg-primary-50', 'text-primary-600');
+  icon.classList.add('bg-green-100', 'text-green-600');
   icon.innerHTML = '✓';
-
   const badge = document.getElementById('badge-'+step);
   if(badge) {
-    badge.innerHTML = '✓ Done';
-    badge.classList.remove('hidden');
-    badge.classList.add('inline-flex');
+    badge.innerHTML = '✓ Done'; badge.classList.remove('hidden'); badge.classList.add('inline-flex');
   }
-
-  if(step < 9) {
+  if(step < 10) {
     const nextStep = step + 1;
     const nextPanel = document.getElementById('panel-'+nextStep);
     nextPanel.classList.remove('disabled');
     togglePanel(nextStep);
-    
-    setTimeout(() => {
-      nextPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+    setTimeout(() => nextPanel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
   }
 }
 
 function updateProgress() {
-  const pct = Math.round((currentActive / 9) * 100);
+  const pct = Math.round((currentActive / 10) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressPct').textContent = pct + '%';
-  document.getElementById('stepBadge').textContent = `Step ${currentActive} of 9`;
+  document.getElementById('stepBadge').textContent = `Step ${currentActive} of 10`;
 }
 
 function showToast(msg){
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.opacity = '1';
-  t.style.transform = 'translate(-50%, -10px)';
-  setTimeout(()=>{
-    t.style.opacity = '0';
-    t.style.transform = 'translate(-50%, 0)';
-  }, 3000);
+  t.textContent = msg; t.style.opacity = '1';
+  setTimeout(()=>{ t.style.opacity = '0'; }, 3000);
 }
 
-/* Toggles */
-function toggleSwitch(el) {
-  el.classList.toggle('bg-primary-600');
-  el.classList.toggle('bg-slate-200');
-  const knob = el.querySelector('.toggle-knob');
-  if(el.classList.contains('bg-primary-600')) {
-    knob.style.left = '22px';
-  } else {
-    knob.style.left = '2px';
-  }
-}
-
-function toggleSameAddr(el) {
-  toggleSwitch(el);
-  if(el.classList.contains('bg-primary-600')){
-    document.getElementById('addr1').value='A-42, Balaji Heights';
-    document.getElementById('addr2').value='Station Road';
-    document.getElementById('city').value='Mumbai';
-    document.getElementById('state').value='Maharashtra';
-    document.getElementById('pin').value='400001';
-  }
-}
-
-/* OTP */
 function handleSendOtp(){
-  const p = document.getElementById('phoneInput').value;
-  if(p.length !== 10){ showToast('Enter 10-digit number'); return; }
   document.getElementById('phone-screen').classList.add('hidden');
   document.getElementById('otp-screen').classList.remove('hidden');
-  document.getElementById('otpPhone').textContent = '+91 '+p.substring(0,2)+'XXXXXX'+p.substring(8);
-  startTimer();
-  setTimeout(() => document.getElementById('otp0').focus(), 100);
 }
-function editPhone() {
-  document.getElementById('otp-screen').classList.add('hidden');
-  document.getElementById('phone-screen').classList.remove('hidden');
-}
-function handleVerifyOtp(){
-  let otp='';
-  for(let i=0;i<6;i++) otp+=document.getElementById('otp'+i).value;
-  if(otp.length<6){showToast('Enter 6-digit OTP');return;}
-  showToast('OTP Verified successfully!');
-  setTimeout(() => completeStep(1), 500);
-}
-function otpNext(el,next){
-  if(el.value){
-    el.classList.add('border-primary-500', 'bg-primary-50');
-    if(next<=5) document.getElementById('otp'+next).focus();
-  } else {
-    el.classList.remove('border-primary-500', 'bg-primary-50');
-  }
-}
-function otpBack(e,prev){if(e.key==='Backspace'&&!e.target.value&&prev>=0) document.getElementById('otp'+prev).focus();}
+function handleVerifyOtp(){ showToast('OTP Verified!'); setTimeout(() => completeStep(1), 500); }
+function otpNext(el,next){ if(el.value&&next<=5) document.getElementById('otp'+next).focus(); }
+function resendOtp(){ showToast('OTP resent!'); }
 
-let otpTimer;
-function startTimer(){
-  let t=30;
-  if(otpTimer) clearInterval(otpTimer);
-  document.getElementById('resendBtn').innerHTML = `Resend in <b id="timer" class="text-slate-800 font-bold">30s</b>`;
-  otpTimer=setInterval(()=>{
-    t--;
-    const el=document.getElementById('timer');
-    if(el) el.textContent=t+'s';
-    if(t<=0){
-      clearInterval(otpTimer);
-      document.getElementById('resendBtn').innerHTML='<span class="text-primary-600 hover:text-primary-700">Resend OTP</span>';
-    }
-  },1000);
-}
-function resendOtp(){ showToast('OTP resent!'); startTimer(); }
-
-/* Selfie */
 function captureSelfie(){ document.getElementById('cameraInput').click(); }
 function previewSelfie(e){
   const f=e.target.files[0];if(!f) return;
@@ -672,62 +371,28 @@ function previewSelfie(e){
     document.getElementById('selfiePreview').src=ev.target.result;
     document.getElementById('selfiePreview').classList.remove('hidden');
     document.getElementById('selfiePlaceholder').classList.add('hidden');
-    const btn = document.getElementById('selfieNextBtn');
-    btn.disabled = false;
-    showToast('Selfie captured!');
+    document.getElementById('selfieNextBtn').disabled = false;
   };
   r.readAsDataURL(f);
 }
 
-/* KYC */
 function selectKyc(type, el){
-  document.querySelectorAll('.kyc-opt').forEach(o=>{
-    o.classList.remove('selected', 'bg-primary-50', 'border-primary-300');
-  });
-  el.classList.add('selected', 'bg-primary-50', 'border-primary-300');
-  
-  document.getElementById('ekycPanel').classList.add('hidden');
-  document.getElementById('pkycPanel').classList.add('hidden');
-  document.getElementById('pkycSub').classList.add('hidden');
-  document.getElementById('pkycSub').classList.remove('flex');
-  
+  document.querySelectorAll('.group').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
   if(type==='ekyc'){
-    document.getElementById('ekycPanel').classList.remove('hidden');
+    document.getElementById('ekycPanel').classList.remove('hidden'); document.getElementById('pkycSub').classList.add('hidden');
   } else {
-    document.getElementById('pkycSub').classList.remove('hidden');
-    document.getElementById('pkycSub').classList.add('flex');
+    document.getElementById('pkycSub').classList.remove('hidden'); document.getElementById('pkycSub').classList.add('flex');
   }
 }
-function selectPkycDoc(type, el){
-  document.querySelectorAll('.pkyc-subopt-\\[\\.selected\\]\\:bg-green-50').forEach(s => {
-    s.classList.remove('selected', 'bg-green-50', 'border-green-500', 'text-green-700');
-  });
-  el.classList.add('selected', 'bg-green-50', 'border-green-500', 'text-green-700');
-  const labels={voter:'Voter ID Number',dl:'Driving Licence No.',passport:'Passport Number'};
-  document.getElementById('pkycDocLabel').textContent=labels[type];
-  document.getElementById('pkycPanel').classList.remove('hidden');
-}
-function formatAadhaar(el){
-  let v=el.value.replace(/\D/g,'').substring(0,12);
-  el.value=v.replace(/(\d{4})(?=\d)/g,'$1 ');
-}
-
-/* Employment */
+function selectPkycDoc(type, el){ el.classList.add('selected', 'bg-green-50'); document.getElementById('pkycPanel').classList.remove('hidden'); }
 function showEmpFields(){
   const v=document.getElementById('empType').value;
-  if(v==='salaried'){
-    document.getElementById('salariedFields').classList.remove('hidden');
-    document.getElementById('selfFields').classList.add('hidden');
-  } else if(v==='self') {
-    document.getElementById('selfFields').classList.remove('hidden');
-    document.getElementById('salariedFields').classList.add('hidden');
-  } else {
-    document.getElementById('salariedFields').classList.add('hidden');
-    document.getElementById('selfFields').classList.add('hidden');
-  }
+  if(v==='salaried'){ document.getElementById('salariedFields').classList.remove('hidden'); }
+  else if(v==='self') { document.getElementById('selfFields').classList.remove('hidden'); }
 }
+function formatAadhaar(el){ let v=el.value.replace(/\D/g,'').substring(0,12); el.value=v.replace(/(\d{4})(?=\d)/g,'$1 '); }
 
-// Init
 togglePanel(1);
 </script>
 </body>
